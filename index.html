@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de transporte</title>
+    <!-- CSS para el mapa -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="map"></div>
+    <div id="controls">
+        <label for="vehicle">Vehicle:</label>
+        <select id="vehicle">
+            <option value="auto">Auto</option>
+            <option value="camion">Camion</option>
+        </select>
+        <button onclick="calculateRoute()">Calcular ruta</button>
+    </div>
+    <div id="output"></div>
+    <script src="renderer.js"></script>
+</body>
+</html>
