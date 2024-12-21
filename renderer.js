@@ -64,7 +64,7 @@ function calculateRoute() {
             const route = response.routes[0].legs[0];
             const distance = route.distance.value / 1000; // distance in km
             const duration = route.duration.value / 3600; // duration in hours
-
+            
             let fuelConsumption;
             switch (vehicle) {
                 case 'auto':
