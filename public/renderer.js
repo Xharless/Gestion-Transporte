@@ -11,15 +11,38 @@ let startLocation;
 let endLocation;
 
 function iniciarMap() {
-    const coord = { lat: -34.4780272, lng: -71.4809727 };
-    map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
-        center: coord,
-    });
+    //intentar obtener la ubicacion de la persona para centrar el mapa
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition((position)=>{
+            const userLocation ={
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: userLocation,
+            });
+            
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer();
+            directionsRenderer.setMap(map);
 
-    directionsService = new google.maps.DirectionsService();
-    directionsRenderer = new google.maps.DirectionsRenderer();
-    directionsRenderer.setMap(map);
+            // Agregar un marcador en la ubicación del usuario
+            new google.maps.Marker({
+                position: userLocation,
+                map: map,
+                label: 'Tú'
+            });
+        }, () =>{
+            alert("No se pudo obtener la ubicacion.");
+        });
+    } else {
+        alert("Geolocalización no soportada por este navegador.");
+    }
+
+
+    
+
 
     map.addListener('click', (event) => {
         if (!startLocation) {
