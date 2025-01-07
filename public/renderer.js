@@ -90,7 +90,7 @@ function calculateRoute() {
 
 // Cargar el script de Google Maps dinámicamente
 const script = document.createElement('script');
-script.src = `https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&callback=iniciarMap`;
+script.src = `/maps-api?callback=iniciarMap`;  // Cargar desde el servidor
 script.async = true;
 script.defer = true;
 document.head.appendChild(script);
