@@ -16,8 +16,8 @@ function iniciarMap() {
         navigator.geolocation.getCurrentPosition(
             (position)=>{
                 const userLocation ={
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
+                    lat: -34.4785138,
+                    lng: -71.4770823
                 };
                 console.log('Ubicación obtenida:');
                 console.log(`Latitud: ${position.coords.latitude}, Longitud: ${position.coords.longitude}`);
