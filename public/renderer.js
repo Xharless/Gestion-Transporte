@@ -13,35 +13,43 @@ let endLocation;
 function iniciarMap() {
     //intentar obtener la ubicacion de la persona para centrar el mapa
     if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition((position)=>{
-            const userLocation ={
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 15,
-                center: userLocation,
-            });
-            
-            directionsService = new google.maps.DirectionsService();
-            directionsRenderer = new google.maps.DirectionsRenderer();
-            directionsRenderer.setMap(map);
+        navigator.geolocation.getCurrentPosition(
+            (position)=>{
+                const userLocation ={
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                console.log('Ubicación obtenida:');
+                console.log(`Latitud: ${position.coords.latitude}, Longitud: ${position.coords.longitude}`);
+                console.log(`Precisión: ${position.coords.accuracy} metros`);
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: userLocation
+                });
+                
+                directionsService = new google.maps.DirectionsService();
+                directionsRenderer = new google.maps.DirectionsRenderer();
+                directionsRenderer.setMap(map);
 
-            // Agregar un marcador en la ubicación del usuario
-            new google.maps.Marker({
-                position: userLocation,
-                map: map,
-                label: 'Tú'
-            });
-        }, () =>{
-            alert("No se pudo obtener la ubicacion.");
-        });
+                // Agregar un marcador en la ubicación del usuario
+                new google.maps.Marker({
+                    position: userLocation,
+                    map: map,
+                    label: 'Tú'
+                });
+            }, 
+            (error) =>{
+                alert("No se pudo obtener la ubicacion.");
+            },
+            {
+                enableHighAccuracy: true, // Mejorar la precisión
+                timeout: 5000, // Tiempo de espera de 5 segundos
+                maximumAge: 0 // No usar ubicación almacenada en caché
+            }
+        );
     } else {
         alert("Geolocalización no soportada por este navegador.");
     }
-
-
-    
 
 
     map.addListener('click', (event) => {
