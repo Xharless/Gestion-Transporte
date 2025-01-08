@@ -14,7 +14,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     z-index: 1;
 }
 
@@ -67,10 +67,11 @@ body {
     left: 10px;
     z-index: 2;
     background-color: rgba(255, 255, 255, 0.7);
-    padding: 15px;
+    padding: 10px;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    width: 150px; /* Ajustado para que coincida con el buscador */
+    max-width: 90%; /* Ajustado para que coincida con el buscador */
+    margin: 0 a;
 }
 
 #controls label,
@@ -78,6 +79,32 @@ body {
 #controls button {
     display: block;
     margin: 10px 0;
-    font-size: 16px;
     width: 100%; /* Hacer que los elementos ocupen todo el ancho del contenedor */
+}
+
+/* Contenedor principal de sugerencias */
+.pac-container {
+    background-color: #fff; /* Fondo blanco */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+    z-index: 1000; /* Asegurarte de que aparezca sobre otros elementos */
+}
+
+/* Elemento individual de la sugerencia */
+.pac-item {
+    font-family: 'Arial', sans-serif; /* Fuente personalizada */
+    font-size: 14px;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee; /* Línea divisoria */
+    cursor: pointer;
+}
+
+.pac-item:hover {
+    background-color: #f7f7f7; /* Fondo al pasar el mouse */
+}
+
+/* Personalizar el texto destacado de las sugerencias */
+.pac-item .pac-item-query {
+    color: #007BFF; /* Texto destacado en azul */
+    font-weight: bold;
 }
