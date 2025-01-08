@@ -22,7 +22,7 @@ function iniciarMap() {
         center: userLocation,
         zoomControl: true,
         mapTypeControl: false,  // Desactivamos el control de tipo de mapa predeterminado
-        streetViewControl: false,
+        streetViewControl: true,
         fullscreenControl: false
     });
 
@@ -42,9 +42,9 @@ function iniciarMap() {
     //crear el boton para el satelite
     const satelliteButton = document.createElement('button');
     const satelliteImage = document.createElement('img')
-    satelliteImage.src = 'https://img.icons8.com/?size=100&id=5374&format=png&color=000000'
+    satelliteImage.src = 'https://img.icons8.com/?size=100&id=2236&format=png&color=000000'
     satelliteImage.alt='Satelite';
-    satelliteImage.style.width = '40px';
+    satelliteImage.style.width = '35px';
     satelliteButton.appendChild(satelliteImage);
     satelliteButton.classList.add('satellite-control-button');
     satelliteButton.onclick = () => map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
@@ -53,7 +53,7 @@ function iniciarMap() {
     mapTypeControlDiv.appendChild(satelliteButton);
     
     // Establecer los controles en el mapa
-    map.controls[google.maps.ControlPosition.LEFT_TOP].push(mapTypeControlDiv);
+    map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(mapTypeControlDiv);
 
     // Crear los demás controles y funcionalidades
     directionsService = new google.maps.DirectionsService();

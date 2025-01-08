@@ -140,5 +140,5 @@ body {
 /* Los botones deben estar apilados, uno sobre otro */
 .map-control-button,
 .satellite-control-button {
-    width: 100%;
+    width: 50%;
 }
