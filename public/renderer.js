@@ -106,21 +106,16 @@ function iniciarMap() {
                 map: map,
                 label: 'B',
             });
-            // Mostrar controles para calcular la ruta
-            const controls = document.getElementById('controls');
-            controls.style.display = 'block'; // Asegúrate de que se muestre
+            // Traza la ruta automáticamente y muestra los íconos
+            calculateRoute();
+            document.getElementById('vehicleIcons').style.display = 'flex';
         }
     });
 }
 
 
 function calculateRoute() {
-    const vehicle = document.getElementById('vehicle').value;
-
-    if (!startLocation || !endLocation) {
-        alert('Por favor selecciona ambos puntos en el mapa.');
-        return;
-    }
+    if (!startLocation || !endLocation) return;
 
     directionsService.route(
         {
@@ -132,51 +127,47 @@ function calculateRoute() {
             if (status === 'OK') {
                 directionsRenderer.setDirections(response);
                 const route = response.routes[0].legs[0];
-                const distance = route.distance.value / 1000; // Distancia en km
-                const duration = route.duration.value // Duración en segundos
-
-                let fuelConsumption;
-                switch (vehicle) {
-                    case 'auto':
-                        fuelConsumption = 8; // Consumo promedio en litros por 100 km
-                        break;
-                    case 'camion':
-                        fuelConsumption = 15;
-                        break;
-                    default:
-                        fuelConsumption = 8;
-                }
-
-                 // convertir tiempo
-                let displayDuration;
-                let minutes = duration / 60;
-                if (minutes < 60) {
-                    displayDuration = `${Math.round(minutes)} minutes`; // Show minutes if less than 1 hour
-                } else {
-                    const hours = Math.floor(minutes / 60);
-                    const remainingMinutes = Math.round(minutes % 60);
-                    displayDuration = `${hours} hours ${remainingMinutes} minutes`; // Show hours and minutes if more than 1 hour
-                }
-
-
-                const averageSpeed = distance / (duration / 3600); // Velocidad promedio en km/h
-                const fuelUsed = (distance / 100) * fuelConsumption; // Consumo total en litros
-
-                const outputHTML = `
-                    <p><strong>Distancia:</strong> ${distance.toFixed(2)} km</p>
-                    <p><strong>Duración:</strong> ${displayDuration}</p>
-                    <p><strong>Velocidad promedio:</strong> ${averageSpeed.toFixed(2)} km/h</p>
-                    <p><strong>Combustible usado:</strong> ${fuelUsed.toFixed(2)} litros</p>
-                `;
-
-                // Mostrar resultados en el contenedor
-                document.getElementById('output').innerHTML = outputHTML;
-                document.getElementById('output').style.display = 'block';
+                displayRouteInfo(route);
             } else {
-                alert('Error al calcular la ruta: ' + status);
+                alert('No se pudo calcular la ruta: ' + status);
             }
         }
     );
+}
+function displayRouteInfo(route) {
+    // Verificar si existe un contenedor para mostrar resultados
+    const outputContainer = document.getElementById('output');
+    if (!outputContainer) {
+        console.error('No se encontró el contenedor para mostrar los resultados.');
+        return;
+    }
+
+    const distance = route.distance.value / 1000; // Distancia en kilómetros
+    const durationSeconds = route.duration.value; // Duración en segundos
+    const durationMinutes = Math.round(durationSeconds / 60); // Duración en minutos
+
+    // Calcular consumo de combustible
+    const fuelConsumption = selectedVehicle === 'auto' ? 8 : 15; // Litros cada 100 km
+    const fuelUsed = (distance / 100) * fuelConsumption; // Combustible total usado
+
+    // Crear la salida de datos
+    const outputHTML = `
+        <h3>Información de la ruta</h3>
+        <p><strong>Distancia:</strong> ${distance.toFixed(2)} km</p>
+        <p><strong>Duración:</strong> ${durationMinutes} minutos</p>
+        <p><strong>Combustible estimado:</strong> ${fuelUsed.toFixed(2)} litros</p>
+    `;
+
+    // Actualizar el contenido del contenedor
+    outputContainer.innerHTML = outputHTML;
+
+    // Mostrar el contenedor si está oculto (opcional)
+    outputContainer.style.display = 'block';
+}
+
+function selectVehicle(vehicle) {
+    selectedVehicle = vehicle;
+    calculateRoute();
 }
 
 

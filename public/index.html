@@ -4,29 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de transporte</title>
-    <!-- CSS para el mapa -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Contenedor del mapa -->
     <div id="map"></div>
+
     <!-- Buscador -->
     <div id="searchBoxContainer">
         <input id="searchBox" class="custom-search-box" type="text" placeholder="Search Here" />
+        <!-- Botones de selección de vehículo -->
+        <div id="vehicleIcons" style="display: none;">
+            <button id="autoBtn" class="vehicle-btn" onclick="selectVehicle('auto')">
+                <img src="https://img.icons8.com/ios/50/fiat-500.png" alt="fiat-500" alt="Auto" class="vehicle-icon">
+            </button>
+            <button id="camionBtn" class="vehicle-btn" onclick="selectVehicle('camion')">
+                <img src="https://img.icons8.com/?size=100&id=3562&format=png&color=000000" alt="Camión" class="vehicle-icon">
+            </button>
+        </div>
     </div>
-    <!-- Controles que aparecerán después de seleccionar los puntos -->
-    <div id="controls">
-        <label for="vehicle">Vehículo:</label>
-        <select id="vehicle">
-            <option value="auto">Auto</option>
-            <option value="camion">Camión</option>
-        </select>
-        <button onclick="calculateRoute()">Calcular Ruta</button>
-    </div>
+
+    <!-- Salida de información -->
     <div id="output"></div>
 
+    <!-- Enlace al archivo JS -->
     <script src="renderer.js"></script>
 </body>
-
-
-
 </html>

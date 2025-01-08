@@ -47,6 +47,8 @@ html, body {
     display: none; /* Oculto por defecto */
 }
 
+
+
 /* Buscador */
 .custom-search-box {
     width: 300px;
@@ -63,21 +65,54 @@ html, body {
     box-shadow: 0px 4px 8px rgba(0, 91, 187, 0.4);
 }
 
-/* Controles para el vehículo y botón */
-#controls {
-    display: none;
+#vehicleIcons {
     position: absolute;
-    top: 80px; /* Justo debajo del buscador */
+    top: 50px; /* Ajusta la posición según sea necesario */
     left: 50%;
     transform: translateX(-50%);
+    display: flex;
+    gap: 10px; 
     z-index: 2;
-    background-color: rgba(255, 255, 255, 0.7);
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    max-width: 90%; /* Ajustado para que coincida con el buscador */
-    margin: 0 a;
-    width: 300px;
+    margin-top: 20px;
+}
+
+.vehicle-icon {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 5px;
+}
+
+.vehicle-icon:hover {
+    border: 2px solid #007bff;
+}
+.vehicle-btn {
+    background-color: #fff; /* Fondo blanco */
+    border: 2px solid #ccc; /* Borde gris */
+    border-radius: 50%; /* Forma circular */
+    padding: 10px; /* Espaciado interno */
+    cursor: pointer; /* Cursor tipo botón */
+    transition: all 0.3s ease; /* Animación de hover */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Sombra */
+}
+.vehicle-btn img {
+    width: 40px; /* Ancho de la imagen */
+    height: 40px; /* Alto de la imagen */
+    pointer-events: none; /* Evita interferir con el clic */
+}
+
+/* Efecto hover */
+.vehicle-btn:hover {
+    background-color: #f0f0f0; /* Cambio de color al pasar el cursor */
+    border-color: #007bff; /* Color del borde en hover */
+    transform: scale(1.1); /* Escala ligeramente al pasar el cursor */
+}
+
+.vehicle-btn.selected {
+    background-color: #007bff; /* Fondo azul para el seleccionado */
+    color: #fff; /* Texto blanco */
+    border-color: #0056b3; /* Borde azul oscuro */
 }
 
 #controls label,
