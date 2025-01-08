@@ -6,52 +6,29 @@ let map;
 let directionsService;
 let directionsRenderer;
 let startMarker;
+let searchBox;
 let endMarker;
 let startLocation;
 let endLocation;
 
 function iniciarMap() {
-    //intentar obtener la ubicacion de la persona para centrar el mapa
-    if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(
-            (position)=>{
-                const userLocation ={
-                    lat: -34.4785138,
-                    lng: -71.4770823
-                };
-                console.log('Ubicación obtenida:');
-                console.log(`Latitud: ${position.coords.latitude}, Longitud: ${position.coords.longitude}`);
-                console.log(`Precisión: ${position.coords.accuracy} metros`);
-                map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 15,
-                    center: userLocation
-                });
-                
-                directionsService = new google.maps.DirectionsService();
-                directionsRenderer = new google.maps.DirectionsRenderer();
-                directionsRenderer.setMap(map);
+    // Establecer una ubicación fija en lugar de usar geolocalización
+    const userLocation = {
+        lat: -34.4803521,
+        lng: -71.4790298
+    };
+    
+    map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: userLocation
+    });
 
-                // Agregar un marcador en la ubicación del usuario
-                new google.maps.Marker({
-                    position: userLocation,
-                    map: map,
-                    label: 'Tú'
-                });
-            }, 
-            (error) =>{
-                alert("No se pudo obtener la ubicacion.");
-            },
-            {
-                enableHighAccuracy: true, // Mejorar la precisión
-                timeout: 5000, // Tiempo de espera de 5 segundos
-                maximumAge: 0 // No usar ubicación almacenada en caché
-            }
-        );
-    } else {
-        alert("Geolocalización no soportada por este navegador.");
-    }
+    directionsService = new google.maps.DirectionsService();
+    directionsRenderer = new google.maps.DirectionsRenderer();
+    directionsRenderer.setMap(map);
 
-
+    
+    
     map.addListener('click', (event) => {
         if (!startLocation) {
             startLocation = event.latLng;
@@ -67,6 +44,34 @@ function iniciarMap() {
                 map: map,
                 label: 'B',
             });
+        }
+    });
+    // Crear el cuadro de búsqueda
+    searchBox = new google.maps.places.Autocomplete(document.getElementById('searchBox'), {
+        types: ['geocode'], // Solo resultados de direcciones
+    });
+
+    searchBox.addListener('place_changed', () => {
+        const place = searchBox.getPlace();
+        if (place.geometry) {
+            // Centrar el mapa en la ubicación seleccionada
+            map.setCenter(place.geometry.location);
+            map.setZoom(15);
+
+            // Colocar un marcador en la ubicación seleccionada
+            if (startMarker) {
+                startMarker.setMap(null); // Eliminar marcador anterior si existe
+            }
+            startMarker = new google.maps.Marker({
+                position: place.geometry.location,
+                map: map,
+                label: 'A',
+            });
+
+            // Guardar la ubicación como punto de inicio
+            startLocation = place.geometry.location;
+        } else {
+            alert('No se pudo obtener los detalles de la ubicación.');
         }
     });
 }
@@ -121,7 +126,7 @@ function calculateRoute() {
 
 // Cargar el script de Google Maps dinámicamente
 const script = document.createElement('script');
-script.src = `/maps-api?callback=iniciarMap`;  // Cargar desde el servidor
+script.src = `/maps-api?callback=iniciarMap&libraries=places`;  // Cargar desde el servidor
 script.async = true;
 script.defer = true;
 document.head.appendChild(script);
