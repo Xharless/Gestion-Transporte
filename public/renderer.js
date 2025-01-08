@@ -106,6 +106,9 @@ function iniciarMap() {
                 map: map,
                 label: 'B',
             });
+            // Mostrar controles para calcular la ruta
+            const controls = document.getElementById('controls');
+            controls.style.display = 'block'; // Asegúrate de que se muestre
         }
     });
 }
