@@ -10,6 +10,14 @@ let endMarker;
 let startLocation;
 let endLocation;
 
+function ajustarAlturaMapa() {
+    const mapElement = document.getElementById('map');
+    mapElement.style.height = `${window.innerHeight}px`;
+}
+
+ajustarAlturaMapa();
+
+window.addEventListener('resize', ajustarAlturaMapa);
 
 function iniciarMap() {
     const userLocation = {
@@ -44,7 +52,7 @@ function iniciarMap() {
     const satelliteImage = document.createElement('img')
     satelliteImage.src = 'https://img.icons8.com/?size=100&id=2236&format=png&color=000000'
     satelliteImage.alt='Satelite';
-    satelliteImage.style.width = '35px';
+    satelliteImage.style.width = '30px';
     satelliteButton.appendChild(satelliteImage);
     satelliteButton.classList.add('satellite-control-button');
     satelliteButton.onclick = () => map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
