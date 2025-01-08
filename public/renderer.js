@@ -140,9 +140,9 @@ function displayRouteInfo(route) {
 
     // Definir las velocidades promedio 
     let averageSpeed;
-    if(selectedVehicle === 'auto'){
+    if(selectedVehicle === 'Auto'){
         averageSpeed = 100;
-    } else if (selectedVehicle ==='camion'){
+    } else if (selectedVehicle ==='Camion'){
         averageSpeed = 80;
     }
 
@@ -155,13 +155,15 @@ function displayRouteInfo(route) {
     
     
     // Calcular consumo de combustible
-    const fuelConsumption = selectedVehicle === 'auto' ? 10 : 35; // Litros cada 100 km (promedio de ellos)
+    const fuelConsumption = selectedVehicle === 'Auto' ? 10 : 35; // Litros cada 100 km (promedio de ellos)
     const fuelUsed = (distance / 100) * fuelConsumption; // Combustible total usado
 
     // Crear la salida de datos
     let outputHTML = `
         <h3>Información de la ruta</h3>
-        <p><strong>Distancia:</strong> ${distance.toFixed(2)} km</p>`;
+        <p><strong>Distancia:</strong> ${distance.toFixed(2)} km</p>
+        <p><strong>Vehículo:</strong> ${selectedVehicle}</p>`;
+        
     if(hours > 0){
         outputHTML += `<p><strong>Duración:</strong> ${hours} horas ${minutes} minutos</p>`;
     } else {
