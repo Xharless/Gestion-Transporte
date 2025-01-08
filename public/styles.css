@@ -14,15 +14,16 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     z-index: 1;
 }
 
 /* Contenedor del buscador */
 #searchBoxContainer {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 1%; /* Esto lo coloca en el 10% desde la parte superior de la pantalla */
+    left: 50%; /* Esto lo coloca en el centro horizontal */
+    transform: translateX(-50%);
     z-index: 2;
     background-color: rgba(255, 255, 255, 0.9);
     padding: 10px;
@@ -107,4 +108,37 @@ body {
 .pac-item .pac-item-query {
     color: #007BFF; /* Texto destacado en azul */
     font-weight: bold;
+}
+
+/*contenedores de los botones de control de mapa y satelite*/
+.map-control-button,
+.satellite-control-button {
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.map-control-button:hover,
+.satellite-control-button:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+/* Contenedor de los botones, alineados a la izquierda */
+#map .gm-style-cc {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    z-index: 5;
+}
+
+/* Los botones deben estar apilados, uno sobre otro */
+.map-control-button,
+.satellite-control-button {
+    width: 100%;
 }

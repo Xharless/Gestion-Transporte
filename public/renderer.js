@@ -10,53 +10,79 @@ let endMarker;
 let startLocation;
 let endLocation;
 
+
 function iniciarMap() {
-    // Configuración inicial del mapa
-    const userLocation = { lat: -34.4803521, lng: -71.4790298 };
+    const userLocation = {
+        lat: -34.4803521,
+        lng: -71.4790298
+    };
+
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 15,
         center: userLocation,
+        zoomControl: true,
+        mapTypeControl: false,  // Desactivamos el control de tipo de mapa predeterminado
+        streetViewControl: false,
+        fullscreenControl: false
     });
 
+    // Crear los botones personalizados para cambiar el tipo de mapa
+    const mapTypeControlDiv = document.createElement('div');
+
+    //Crea el boton para el mapa
+    const mapButton = document.createElement('button');
+    const mapImage = document.createElement('img')
+    mapImage.src = 'https://img.icons8.com/?size=100&id=343&format=png&color=000000'
+    mapImage.alt='Mapa';
+    mapImage.style.width = '30px';
+    mapButton.appendChild(mapImage);
+    mapButton.classList.add('map-control-button');
+    mapButton.onclick = () => map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+
+    //crear el boton para el satelite
+    const satelliteButton = document.createElement('button');
+    const satelliteImage = document.createElement('img')
+    satelliteImage.src = 'https://img.icons8.com/?size=100&id=5374&format=png&color=000000'
+    satelliteImage.alt='Satelite';
+    satelliteImage.style.width = '40px';
+    satelliteButton.appendChild(satelliteImage);
+    satelliteButton.classList.add('satellite-control-button');
+    satelliteButton.onclick = () => map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+
+    mapTypeControlDiv.appendChild(mapButton);
+    mapTypeControlDiv.appendChild(satelliteButton);
+    
+    // Establecer los controles en el mapa
+    map.controls[google.maps.ControlPosition.LEFT_TOP].push(mapTypeControlDiv);
+
+    // Crear los demás controles y funcionalidades
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer();
     directionsRenderer.setMap(map);
-
-    // Crear el cuadro de búsqueda
-    const searchBox = new google.maps.places.Autocomplete(
-        document.getElementById('searchBox')
-    );
+    
+    searchBox = new google.maps.places.Autocomplete(document.getElementById('searchBox'), {
+        types: ['geocode'],
+    });
 
     searchBox.addListener('place_changed', () => {
         const place = searchBox.getPlace();
         if (place.geometry) {
             map.setCenter(place.geometry.location);
             map.setZoom(15);
-
-            if (!startLocation) {
-                // Agregar marcador para punto A
-                startLocation = place.geometry.location;
-                startMarker = new google.maps.Marker({
-                    position: startLocation,
-                    map: map,
-                    label: 'A',
-                });
-            } else if (!endLocation) {
-                // Agregar marcador para punto B
-                endLocation = place.geometry.location;
-                endMarker = new google.maps.Marker({
-                    position: endLocation,
-                    map: map,
-                    label: 'B',
-                });
-
-                // Mostrar controles para calcular la ruta
-                document.getElementById('controls').style.display = 'block';
+            if (startMarker) {
+                startMarker.setMap(null);
             }
+            startMarker = new google.maps.Marker({
+                position: place.geometry.location,
+                map: map,
+                label: 'A',
+            });
+            startLocation = place.geometry.location;
+        } else {
+            alert('No se pudo obtener los detalles de la ubicación.');
         }
     });
 
-    // Seleccionar puntos en el mapa
     map.addListener('click', (event) => {
         if (!startLocation) {
             startLocation = event.latLng;
@@ -72,12 +98,10 @@ function iniciarMap() {
                 map: map,
                 label: 'B',
             });
-
-            // Mostrar controles para calcular la ruta
-            document.getElementById('controls').style.display = 'block';
         }
     });
 }
+
 
 function calculateRoute() {
     const vehicle = document.getElementById('vehicle').value;
