@@ -29,6 +29,19 @@ body {
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
+#output {
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    max-width: 320px;
+    font-size: 14px;
+    display: none; /* Oculto por defecto */
+}
 
 /* Buscador */
 .custom-search-box {

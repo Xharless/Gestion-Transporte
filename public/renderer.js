@@ -83,7 +83,7 @@ function calculateRoute() {
     const vehicle = document.getElementById('vehicle').value;
 
     if (!startLocation || !endLocation) {
-        alert('Selecciona ambos puntos para calcular la ruta.');
+        alert('Por favor selecciona ambos puntos en el mapa.');
         return;
     }
 
@@ -97,22 +97,41 @@ function calculateRoute() {
             if (status === 'OK') {
                 directionsRenderer.setDirections(response);
                 const route = response.routes[0].legs[0];
-                const distance = route.distance.value / 1000; // En km
-                const duration = route.duration.value / 3600; // En horas
-                const fuelConsumption = vehicle === 'camion' ? 15 : 8; // Litros por cada 100 km
-                const fuelUsed = (distance / 100) * fuelConsumption;
+                const distance = route.distance.value / 1000; // Distancia en km
+                const duration = route.duration.value / 3600; // Duración en horas
 
-                document.getElementById('output').innerHTML = `
-                    Distancia: ${distance.toFixed(2)} km<br>
-                    Duración: ${duration.toFixed(2)} horas<br>
-                    Combustible usado: ${fuelUsed.toFixed(2)} litros
+                let fuelConsumption;
+                switch (vehicle) {
+                    case 'auto':
+                        fuelConsumption = 8; // Consumo promedio en litros por 100 km
+                        break;
+                    case 'camion':
+                        fuelConsumption = 15;
+                        break;
+                    default:
+                        fuelConsumption = 8;
+                }
+
+                const averageSpeed = distance / duration; // Velocidad promedio en km/h
+                const fuelUsed = (distance / 100) * fuelConsumption; // Consumo total en litros
+
+                const outputHTML = `
+                    <p><strong>Distancia:</strong> ${distance.toFixed(2)} km</p>
+                    <p><strong>Duración:</strong> ${duration.toFixed(2)} horas</p>
+                    <p><strong>Velocidad promedio:</strong> ${averageSpeed.toFixed(2)} km/h</p>
+                    <p><strong>Combustible usado:</strong> ${fuelUsed.toFixed(2)} litros</p>
                 `;
+
+                // Mostrar resultados en el contenedor
+                document.getElementById('output').innerHTML = outputHTML;
+                document.getElementById('output').style.display = 'block';
             } else {
-                alert('No se pudo calcular la ruta: ' + status);
+                alert('Error al calcular la ruta: ' + status);
             }
         }
     );
 }
+
 
 // Cargar el script de Google Maps dinámicamente
 const script = document.createElement('script');
