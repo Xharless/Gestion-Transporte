@@ -6,7 +6,7 @@ html, body {
     
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    
 }
 
 /* Mapa a pantalla completa */
@@ -91,14 +91,14 @@ html, body {
     background-color: #fff; /* Fondo blanco */
     border: 2px solid #ccc; /* Borde gris */
     border-radius: 50%; /* Forma circular */
-    padding: 10px; /* Espaciado interno */
+    padding: 5px; /* Espaciado interno */
     cursor: pointer; /* Cursor tipo botón */
     transition: all 0.3s ease; /* Animación de hover */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Sombra */
 }
 .vehicle-btn img {
-    width: 40px; /* Ancho de la imagen */
-    height: 40px; /* Alto de la imagen */
+    width: 30px; /* Ancho de la imagen */
+    height: 30px; /* Alto de la imagen */
     pointer-events: none; /* Evita interferir con el clic */
 }
 
