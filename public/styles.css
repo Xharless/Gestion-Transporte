@@ -1,11 +1,12 @@
 /* Estilo general */
-body {
+html, body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
     height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 /* Mapa a pantalla completa */
