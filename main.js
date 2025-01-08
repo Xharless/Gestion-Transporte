@@ -17,7 +17,7 @@ app.get('/maps-api', async (req, res) => {
         const callback = new URLSearchParams(req.query).toString();// Callback para inicializar el mapa
         // Construir la URL para Google Maps API
         const url = `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_API_KEY}&${callback}`;
-        console.log('Google Maps API URL:', url);
+        
         res.redirect(url);  // Redirigir al cliente al script de Google Maps
     } catch (error) {
         console.error('Error al cargar la API de Google Maps:', error);

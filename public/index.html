@@ -9,17 +9,23 @@
 </head>
 <body>
     <div id="map"></div>
+    <!-- Buscador -->
+    <div id="searchBoxContainer">
+        <input id="searchBox" class="custom-search-box" type="text" placeholder="Buscar Dirección" />
+    </div>
+    <!-- Controles que aparecerán después de seleccionar los puntos -->
     <div id="controls">
-        <input id="searchBox" type="text" placeholder="Buscar Direccion" />
-        
-        <label for="vehicle">Vehicle:</label>
+        <label for="vehicle">Vehículo:</label>
         <select id="vehicle">
             <option value="auto">Auto</option>
-            <option value="camion">Camion</option>
+            <option value="camion">Camión</option>
         </select>
-        <button onclick="calculateRoute()">Calcular ruta</button>
+        <button onclick="calculateRoute()">Calcular Ruta</button>
     </div>
     <div id="output"></div>
     <script src="renderer.js"></script>
 </body>
+
+
+
 </html>
