@@ -77,15 +77,6 @@ function iniciarMap() {
         if (place.geometry) {
             map.setCenter(place.geometry.location);
             map.setZoom(15);
-            if (startMarker) {
-                startMarker.setMap(null);
-            }
-            startMarker = new google.maps.Marker({
-                position: place.geometry.location,
-                map: map,
-                label: 'A',
-            });
-            startLocation = place.geometry.location;
         } else {
             alert('No se pudo obtener los detalles de la ubicación.');
         }
@@ -142,21 +133,42 @@ function displayRouteInfo(route) {
         return;
     }
 
-    const distance = route.distance.value / 1000; // Distancia en kilómetros
-    const durationSeconds = route.duration.value; // Duración en segundos
-    const durationMinutes = Math.round(durationSeconds / 60); // Duración en minutos
+    
 
+    const distance = route.distance.value / 1000; // Distancia en kilómetros
+    
+
+    // Definir las velocidades promedio 
+    let averageSpeed;
+    if(selectedVehicle === 'auto'){
+        averageSpeed = 100;
+    } else if (selectedVehicle ==='camion'){
+        averageSpeed = 80;
+    }
+
+    const durationMinutes = (distance / averageSpeed) * 60; // Duración total en minutos
+
+
+    // Calcular la duración ajustada según la velocidad del vehículo
+    const hours = Math.floor(durationMinutes/60); // Duración ajustada en horas
+    const minutes = Math.round(durationMinutes%60); // minutos restantes 
+    
+    
     // Calcular consumo de combustible
-    const fuelConsumption = selectedVehicle === 'auto' ? 8 : 15; // Litros cada 100 km
+    const fuelConsumption = selectedVehicle === 'auto' ? 10 : 35; // Litros cada 100 km (promedio de ellos)
     const fuelUsed = (distance / 100) * fuelConsumption; // Combustible total usado
 
     // Crear la salida de datos
-    const outputHTML = `
+    let outputHTML = `
         <h3>Información de la ruta</h3>
-        <p><strong>Distancia:</strong> ${distance.toFixed(2)} km</p>
-        <p><strong>Duración:</strong> ${durationMinutes} minutos</p>
-        <p><strong>Combustible estimado:</strong> ${fuelUsed.toFixed(2)} litros</p>
-    `;
+        <p><strong>Distancia:</strong> ${distance.toFixed(2)} km</p>`;
+    if(hours > 0){
+        outputHTML += `<p><strong>Duración:</strong> ${hours} horas ${minutes} minutos</p>`;
+    } else {
+        outputHTML += `<p><strong>Duración:</strong> ${minutes} minutos</p>`;
+    }
+
+    outputHTML += `<p><strong>Combustible estimado:</strong> ${fuelUsed.toFixed(2)} litros</p>`;
 
     // Actualizar el contenido del contenedor
     outputContainer.innerHTML = outputHTML;
