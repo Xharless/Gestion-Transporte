@@ -98,7 +98,7 @@ function calculateRoute() {
                 directionsRenderer.setDirections(response);
                 const route = response.routes[0].legs[0];
                 const distance = route.distance.value / 1000; // Distancia en km
-                const duration = route.duration.value / 3600; // Duración en horas
+                const duration = route.duration.value // Duración en segundos
 
                 let fuelConsumption;
                 switch (vehicle) {
@@ -112,12 +112,24 @@ function calculateRoute() {
                         fuelConsumption = 8;
                 }
 
-                const averageSpeed = distance / duration; // Velocidad promedio en km/h
+                 // convertir tiempo
+                let displayDuration;
+                let minutes = duration / 60;
+                if (minutes < 60) {
+                    displayDuration = `${Math.round(minutes)} minutes`; // Show minutes if less than 1 hour
+                } else {
+                    const hours = Math.floor(minutes / 60);
+                    const remainingMinutes = Math.round(minutes % 60);
+                    displayDuration = `${hours} hours ${remainingMinutes} minutes`; // Show hours and minutes if more than 1 hour
+                }
+
+
+                const averageSpeed = distance / (duration / 3600); // Velocidad promedio en km/h
                 const fuelUsed = (distance / 100) * fuelConsumption; // Consumo total en litros
 
                 const outputHTML = `
                     <p><strong>Distancia:</strong> ${distance.toFixed(2)} km</p>
-                    <p><strong>Duración:</strong> ${duration.toFixed(2)} horas</p>
+                    <p><strong>Duración:</strong> ${displayDuration}</p>
                     <p><strong>Velocidad promedio:</strong> ${averageSpeed.toFixed(2)} km/h</p>
                     <p><strong>Combustible usado:</strong> ${fuelUsed.toFixed(2)} litros</p>
                 `;
