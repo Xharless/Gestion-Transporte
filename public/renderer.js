@@ -9,6 +9,7 @@ let startMarker;
 let endMarker;
 let startLocation;
 let endLocation;
+let addingPoints = false;
 
 function ajustarAlturaMapa() {
     const mapElement = document.getElementById('map');
@@ -82,24 +83,68 @@ function iniciarMap() {
         }
     });
 
+
+    // Agregar el botón para permitir la colocación de puntos
+    const addPointsButton = document.createElement('button');
+    addPointsButton.classList.add('add-points-button');
+
+    // Crear una imagen dentro del botón
+    const buttonIcon = document.createElement('img');
+    buttonIcon.src = 'https://img.icons8.com/?size=100&id=2436&format=png&color=000000'; // Imagen inicial
+    buttonIcon.style.width = '20px'; // Ajusta el tamaño si es necesario
+    buttonIcon.style.height = '20px'; // Ajusta el tamaño si es necesario
+    
+    // Agregar la imagen al botón
+    addPointsButton.appendChild(buttonIcon);
+    document.body.appendChild(addPointsButton);
+
+
+    addPointsButton.addEventListener('click', () => {
+        addingPoints = !addingPoints; // Alterna la opción de agregar puntos
+        if (addingPoints) {
+            // Cambiar la imagen y el texto cuando esté activado
+            buttonIcon.src = 'https://img.icons8.com/?size=100&id=37075&format=png&color=000000'; // Imagen activa
+            
+            
+        } else {
+             // Cambiar la imagen y el texto cuando esté desactivado
+            buttonIcon.src = 'https://img.icons8.com/?size=100&id=2436&format=png&color=000000'; // Imagen inactiva
+            
+        }
+    });
+
+
     map.addListener('click', (event) => {
-        if (!startLocation) {
-            startLocation = event.latLng;
-            startMarker = new google.maps.Marker({
-                position: startLocation,
-                map: map,
-                label: 'A',
-            });
-        } else if (!endLocation) {
-            endLocation = event.latLng;
-            endMarker = new google.maps.Marker({
-                position: endLocation,
-                map: map,
-                label: 'B',
-            });
-            // Traza la ruta automáticamente y muestra los íconos
-            calculateRoute();
-            document.getElementById('vehicleIcons').style.display = 'flex';
+        if(addingPoints){
+
+            if (!startLocation) {
+                startLocation = event.latLng;
+                startMarker = new google.maps.Marker({
+                    position: startLocation,
+                    map: map,
+                    label: 'A',
+                    draggable: true
+                });
+                startMarker.addListener('dragend', () => {
+                    startLocation = startMarker.getPosition();
+                });
+            } else if (!endLocation) {
+                endLocation = event.latLng;
+                endMarker = new google.maps.Marker({
+                    position: endLocation,
+                    map: map,
+                    label: 'B',
+                    draggable: true
+                });
+
+                endMarker.addListener('dragend', () => {
+                    endLocation = endMarker.getPosition();
+
+                })
+                // Traza la ruta automáticamente y muestra los íconos
+                calculateRoute();
+                document.getElementById('vehicleIcons').style.display = 'flex';
+            }
         }
     });
 }

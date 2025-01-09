@@ -182,3 +182,23 @@ html, body {
 .satellite-control-button {
     width: 45%;
 }
+
+.add-points-button {
+    background-color: rgba(255, 255, 255, 0.7);
+    color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    bottom: 200px;  /* Ajusta el valor según sea necesario */
+    right: 10px;  /* Alineado a la derecha */
+    z-index: 999; /* Asegura que el botón esté encima de los controles */
+    transition: background-color 0.3s ease;
+}
+
+.add-points-button:hover {
+    background-color: #0056b3;
+}
