@@ -215,7 +215,7 @@ function displayRouteInfo(route) {
         outputHTML += `<p><strong>Duración:</strong> ${minutes} minutos</p>`;
     }
 
-    outputHTML += `<p><strong>Combustible estimado:</strong> ${fuelUsed.toFixed(2)} litros</p>`;
+    outputHTML += `<p><strong>Combustible:</strong> ${fuelUsed.toFixed(2)} litros</p>`;
 
     // Actualizar el contenido del contenedor
     outputContainer.innerHTML = outputHTML;
