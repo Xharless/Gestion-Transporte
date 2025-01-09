@@ -22,19 +22,26 @@ ajustarAlturaMapa();
 window.addEventListener('resize', ajustarAlturaMapa);
 
 function iniciarMap() {
-    const userLocation = {
-        lat: -34.4803521,
-        lng: -71.4790298
-    };
 
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 15,
-        center: userLocation,
+        center: {lat: 0, lng: 0},
         zoomControl: true,
         mapTypeControl: false,  // Desactivamos el control de tipo de mapa predeterminado
         streetViewControl: true,
         fullscreenControl: false
     });
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                map.setCenter(userLocation);
+            }
+        )
+    }
 
     // Crear los botones personalizados para cambiar el tipo de mapa
     const mapTypeControlDiv = document.createElement('div');

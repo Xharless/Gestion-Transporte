@@ -8,6 +8,7 @@
 - Se utiliza el servidor de Render para poder alojar la pagina
 - Se asume que el consumo de un auto es de 10 litros cada 100 kilometros y el del camion es de 35 litros
 - Se asume que el auto va a viajar a 100 Km/h y el camion viajara a 90 Km/h
+- Se recomienda utilizarlo para trayectos lejanos en donde se haga uso de carretera
 # Link # 
 - https://gestion-transporte.onrender.com
 
