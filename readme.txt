@@ -6,5 +6,8 @@
 - Hay que instalar las independencias de node_modules por lo que hay que hacer "npt install"
 - Utilizar propia clave API de Google Maps ya que ésta se encuentra oculta
 - Se utiliza el servidor de Render para poder alojar la pagina
+- Se asume que el consumo de un auto es de 10 litros cada 100 kilometros y el del camion es de 35 litros
+- Se asume que el auto va a viajar a 100 Km/h y el camion viajara a 90 Km/h
 # Link # 
 - https://gestion-transporte.onrender.com
+

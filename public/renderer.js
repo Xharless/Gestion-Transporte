@@ -102,6 +102,7 @@ function iniciarMap() {
     // Crear el botón para eliminar todos los puntos
     const deletePointsButton = document.createElement('button');
     deletePointsButton.classList.add('delete-points-button');
+    deletePointsButton.addEventListener('click', eliminarRuta);
 
     // Crear la imagen dentro del botón
     const deleteButtonIcon = document.createElement('img');
@@ -202,6 +203,16 @@ function calculateRoute() {
     );
 }
 function displayRouteInfo(route) {
+    if(!startLocation || !endLocation){
+        document.getElementById('output').style.display = 'none';
+        if (outputContainer) {
+            outputContainer.innerHTML = '';  // Vaciar cualquier contenido
+            outputContainer.style.display = 'none';  // Ocultar el contenedor
+        }
+        return; 
+        
+    }
+    
     // Verificar si existe un contenedor para mostrar resultados
     const outputContainer = document.getElementById('output');
     if (!outputContainer) {
@@ -236,7 +247,7 @@ function displayRouteInfo(route) {
 
     // Crear la salida de datos
     let outputHTML = `
-        <h3>Información de la ruta</h3>
+        <h3>Ruta</h3>
         <p><strong>Distancia:</strong> ${distance.toFixed(2)} km</p>
         <p><strong>Vehículo:</strong> ${selectedVehicle}</p>`;
         
@@ -258,6 +269,33 @@ function displayRouteInfo(route) {
 function selectVehicle(vehicle) {
     selectedVehicle = vehicle;
     calculateRoute();
+}
+
+function eliminarRuta() {
+    // Eliminar los marcadores si existen
+    if (startMarker) {
+        startMarker.setMap(null);
+        startMarker = null;
+    }
+
+    if (endMarker) {
+        endMarker.setMap(null);
+        endMarker = null;
+    }
+
+    // Resetear las ubicaciones
+    startLocation = null;
+    endLocation = null;
+
+    // También eliminar la ruta
+    directionsRenderer.setDirections({ routes: [] });
+
+    // Ocultar la información de la ruta
+    const outputContainer = document.getElementById('output');
+    if (outputContainer) {
+        outputContainer.innerHTML = '';  // Vaciar cualquier contenido
+        outputContainer.style.display = 'none';  // Ocultar el contenedor
+    }
 }
 
 
