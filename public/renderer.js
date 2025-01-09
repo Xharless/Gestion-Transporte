@@ -10,6 +10,7 @@ let endMarker;
 let startLocation;
 let endLocation;
 let addingPoints = false;
+let markers = [];
 
 function ajustarAlturaMapa() {
     const mapElement = document.getElementById('map');
@@ -98,7 +99,21 @@ function iniciarMap() {
     addPointsButton.appendChild(buttonIcon);
     document.body.appendChild(addPointsButton);
 
+    // Crear el botón para eliminar todos los puntos
+    const deletePointsButton = document.createElement('button');
+    deletePointsButton.classList.add('delete-points-button');
 
+    // Crear la imagen dentro del botón
+    const deleteButtonIcon = document.createElement('img');
+    deleteButtonIcon.src = 'https://img.icons8.com/?size=100&id=WqBUvSrVoBhg&format=png&color=000000'; // Imagen inicial (inactiva)
+    deleteButtonIcon.style.width = '25px';
+    deleteButtonIcon.style.height = '25px';
+
+    // Agregar la imagen al botón
+    deletePointsButton.appendChild(deleteButtonIcon);
+    document.body.appendChild(deletePointsButton);
+
+    //Evento de agregar puntos
     addPointsButton.addEventListener('click', () => {
         addingPoints = !addingPoints; // Alterna la opción de agregar puntos
         if (addingPoints) {
@@ -112,6 +127,21 @@ function iniciarMap() {
             
         }
     });
+
+    // Evento para eliminar los puntos
+    deletePointsButton.addEventListener('click', () => {
+        if(markers.length >0){
+            markers.forEach(marker => {
+                marker.setMap(null);
+            });
+            markers = [];
+            startLocation = null;
+            endLocation = null;
+            directionsRenderer.setDirections({routes: []}); // para eliminar la ruta
+        } else {
+            alert("No hay puntos para eliminar.");
+        }
+    })
 
 
     map.addListener('click', (event) => {
@@ -128,6 +158,7 @@ function iniciarMap() {
                 startMarker.addListener('dragend', () => {
                     startLocation = startMarker.getPosition();
                 });
+                markers.push(startMarker);
             } else if (!endLocation) {
                 endLocation = event.latLng;
                 endMarker = new google.maps.Marker({
@@ -136,7 +167,7 @@ function iniciarMap() {
                     label: 'B',
                     draggable: true
                 });
-
+                markers.push(endMarker);
                 endMarker.addListener('dragend', () => {
                     endLocation = endMarker.getPosition();
 
